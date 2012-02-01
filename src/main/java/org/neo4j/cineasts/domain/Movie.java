@@ -1,65 +1,73 @@
 package org.neo4j.cineasts.domain;
 
-import java.util.Set;
+import static org.neo4j.graphdb.Direction.INCOMING;
 
+import java.util.Collection;
+
+import org.neo4j.helpers.collection.IteratorUtil;
 import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedToVia;
 
 @NodeEntity
 public class Movie {
 
-	@GraphId
-	private Long nodeId;
-	private String title;
-	private int year;
-	private Set<Role> cast;
+  @GraphId
+  private Long nodeId;
 
-	public Movie() {
-		super();
-	}
+  @Indexed
+  String id;
 
-	public Movie(String title, int year) {
-		this.title = title;
-		this.year = year;
-	}
+  private String title;
+  private int year;
 
-	public Long getNodeId() {
-		return nodeId;
-	}
+  @RelatedToVia(type = "ACTS_IN", direction = INCOMING)
+  Iterable<Role> roles;
 
-	public void setNodeId(Long nodeId) {
-		this.nodeId = nodeId;
-	}
+  public Movie() {
+    super();
+  }
 
-	public String getTitle() {
-		return title;
-	}
+  public Movie(String id, String title) {
+    super();
+    this.id = id;
+    this.title = title;
+  }
 
-	private Set<Role> getCast() {
-		return cast;
-	}
+  public Long getNodeId() {
+    return nodeId;
+  }
 
-	private void setCast(Set<Role> cast) {
-		this.cast = cast;
-	}
+  public void setNodeId(Long nodeId) {
+    this.nodeId = nodeId;
+  }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+  public String getTitle() {
+    return title;
+  }
 
-		Movie movie = (Movie) o;
-		if (nodeId == null)
-			return super.equals(o);
-		return nodeId.equals(movie.nodeId);
+  public Collection<Role> getRoles() {
+    return IteratorUtil.asCollection(roles);
+  }
 
-	}
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
 
-	@Override
-	public int hashCode() {
-		return nodeId != null ? nodeId.hashCode() : super.hashCode();
-	}
+    Movie movie = (Movie) o;
+    if (nodeId == null)
+      return super.equals(o);
+    return nodeId.equals(movie.nodeId);
+
+  }
+
+  @Override
+  public int hashCode() {
+    return nodeId != null ? nodeId.hashCode() : super.hashCode();
+  }
 
 }
