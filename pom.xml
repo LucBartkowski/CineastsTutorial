@@ -8,7 +8,7 @@
 	<name>Cineasts.net</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>3.0.7.RELEASE</spring.version>
+		<spring.version>5.2.10.RELEASE</spring.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring-data-graph.version>2.1.0.BUILD-SNAPSHOT</spring-data-graph.version>
 		<spring-data-commons.version>1.2.0.RELEASE</spring-data-commons.version>
